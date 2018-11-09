@@ -1,0 +1,4 @@
+Test
+
+$ truffer test ./test/calculator.js
+
