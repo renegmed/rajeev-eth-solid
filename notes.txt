@@ -1,4 +1,4 @@
 Test
 
-$ truffer test ./test/calculator.js
+$ truffle test ./test/calculator.js
 

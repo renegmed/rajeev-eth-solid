@@ -1,4 +1,4 @@
-pragma solidity ^0.4.6;
+pragma solidity ^0.4.18;
 /*
 I started with your example and adapted it until it works. 
 A few pointers I noticed while doing it.
@@ -27,32 +27,13 @@ It returns the two values stored.
     Source: https://ethereum.stackexchange.com/questions/15930/pushing-pulling-data-from-data-storage-contract
 
 */
-contract D {
 
-  // This is a Type
-  struct DocumentStruct{
-    // Not possible to pass strings between contracts at this time
-    bytes32 name;
-    uint value;
-  }
+import "./CalledContract.sol";
 
-  // This is a namespace where we will store docs of Type DocumentStruct
-  mapping(bytes32 => DocumentStruct) public documentStructs;
-
-  // Set values in storage
-  function StoreDocument(bytes32 key, bytes32 name, uint value) returns (bool success) {
-   documentStructs[key].name  = name;
-   documentStructs[key].value = value;
-   return true;
-  }
-
-}
-
-
-contract E {
+contract CallingContract {
 
   // "d" is of type "D" which is a contract ^
-  D d;
+  CalledContract d;
 
   // Define the Type in this context
   struct DocumentStruct{
@@ -61,10 +42,19 @@ contract E {
   }    
 
   // For this to work, pass in D's address to E's constructor
-  function E(address dAddress) {
-    d = D(dAddress);
+  constructor() {
+    
+    //d = D(dAddress);
+    d = new CalledContract();
   }
 
+
+// Set values in storage
+  function StoreDocument(bytes32 key, bytes32 name, uint value) public returns (bool)  {
+    bool resp = d.StoreDocument(key, name, value);
+    return resp;
+  }
+  
     // function E(address DContractAddress) {
     //     d = D(DContractAddress);
     // }

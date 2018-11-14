@@ -12,8 +12,11 @@ var ConstantsPayable = artifacts.require("./ConstantsPayable.sol");
 var Modifiers = artifacts.require("./Modifiers.sol");
 var Events = artifacts.require("./Events.sol");
 var StoragePatterns = artifacts.require("./StoragePatterns.sol");
+var CallingContract = artifacts.require("./CallingContract.sol");
+var CalledContract = artifacts.require("./CalledContract.sol");
+var TestTaskMaster = artifacts.require("./TestTaskMaster.sol");
 
-module.exports = function(deployer) {
+module.exports =  (deployer, network, accounts) => {
   deployer.deploy(ConvertLib);
   deployer.link(ConvertLib, MetaCoin);
   deployer.deploy(MetaCoin);
@@ -35,4 +38,7 @@ module.exports = function(deployer) {
   deployer.deploy(Modifiers);
   deployer.deploy(Events);
   deployer.deploy(StoragePatterns);
+  deployer.deploy(CallingContract);
+  deployer.deploy(CalledContract);
+  deployer.deploy(TestTaskMaster);
 };

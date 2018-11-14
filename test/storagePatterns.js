@@ -1,6 +1,7 @@
+
 var StoragePatterns = artifacts.require("./StoragePatterns.sol");
 
-contract('StoragePatterns', function(accounts) {
+contract('SimpleList', function(accounts) {
 
     it("should create, store and access Simple List entity", async () => {
         let simpleList;
@@ -26,7 +27,7 @@ contract('StoragePatterns', function(accounts) {
         })();
 
         //await ( (count) => {
-            console.log("Count:",count.toNumber());
+            //console.log("Count:",count.toNumber());
             await assert.equal(count.toNumber(), 2, "Simple list should have a size of 2.");
         //}) (count);
 
@@ -36,24 +37,54 @@ contract('StoragePatterns', function(accounts) {
         })(0);
 
         await ( (data) => {
-            console.log("Entity data:",data.toNumber());
+            //console.log("Entity data:",data.toNumber());
             assert.equal(data.toNumber(), 5, "Simple list entity data should be 5.");
         }) (entityData);
 
     }); 
-    
+});
+
+contract('Mapping with Structs', function(accounts) {    
     it("should create, store read and update Mapping with Structs entity", async () => {
         let mappingEntity;
         const instance = await StoragePatterns.deployed();
-        const isCreated = await (async (instance) => {
+        const isCreated = await ( (instance) => {
             mappingEntity = instance;
             return  mappingEntity.mappingNewEntity.call(accounts[0], 25);             
         }) (instance);
-
+ 
         await ( (isCreated) => {
-            console.log("2. isCreated?",isCreated);
+            //console.log("2. isCreated?",isCreated);
             assert.isTrue(isCreated, "MappingEntity with Structs should have been created.");
         }) (isCreated);
+
+    });     
+});
+
+
+contract('Array of Structs with Unique Ids', function(accounts) {    
+    it("should create, store read and update Mapping with Structs entity", async () => {
+        let mappingEntity;
+        const instance = await StoragePatterns.deployed();
+        const rowNumber = await ( (instance) => {
+            mappingEntity = instance;
+            console.log(account[0]);
+            return  mappingEntity.arrayStructsNewEntity.call(accounts[0], 25);             
+        }) (instance); 
+        
+        const count = await ( () => {  
+            //console.log("got here...")
+            return  mappingEntity.arrayStructsGetEntityCount();             
+        }) ();
+
+        await console.log(count.toNumber());
+        await assert.equal(count.toNumber(), 1, "Record count should be 1.");
+
+
+        // await ( (rowNumber) => {
+        //     //console.log("2. isCreated?",isCreated);
+        //     assert.isEqual(rowNumber.toNumber(), 0, "Row number should be 0");
+        // }) (rowNumber);
 
     });     
 });
